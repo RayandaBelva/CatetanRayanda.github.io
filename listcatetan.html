@@ -51,7 +51,7 @@
 
     <script>
         // Ambil data catetan dari server
-        fetch('/catatan')
+        fetch('https://rayandabelva.github.io/CatetanRayanda.github.io/catatan')
             .then(response => response.json())
             .then(data => {
                 const catetanList = document.getElementById('catetanList');

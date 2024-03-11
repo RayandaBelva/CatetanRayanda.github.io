@@ -40,7 +40,7 @@ func main() {
 	loadDataFromCSV(fileName)
 
 	fmt.Println("Server is running on port 8080...")
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe("0.0.0.0:8080", r)
 }
 
 func serveAddCatetanHTML(w http.ResponseWriter, r *http.Request) {
