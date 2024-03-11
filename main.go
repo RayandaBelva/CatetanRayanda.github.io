@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 type Kebutuhan struct {
@@ -26,6 +27,10 @@ var catatan []Kebutuhan
 var fileName string = "data.csv"
 
 func main() {
+	handleRequest()
+}
+
+func handleRequest() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/catatan", getAllCatetan).Methods("GET")
@@ -39,8 +44,17 @@ func main() {
 	r.HandleFunc("/", homeHandler).Methods("GET")
 	loadDataFromCSV(fileName)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "DELETE", "PUT"},
+	})
+
+	handler := c.Handler(r)
+	http.Handle("/", handler)
+
 	fmt.Println("Server is running on port 8080...")
-	http.ListenAndServe("0.0.0.0:8080", r)
+	http.ListenAndServe(":8080", nil)
 }
 
 func serveAddCatetanHTML(w http.ResponseWriter, r *http.Request) {
